@@ -118,3 +118,5 @@ Note: WER/CER metric calculation slightly different from [Open ASR Leaderboard](
 | [Granite-Speech-4.1-2B](https://huggingface.co/ibm-granite/granite-speech-4.1-2b)     | 3.05 | 4.85 | 5.40 | 5.33 | 0.43 | 0.98 | 2.24 | 1.72 | 3.47 |
 | [Microsoft-Phi-4](https://huggingface.co/microsoft/Phi-4-multimodal-instruct)         | 3.38 | 6.89 | 6.69 | 4.78 | 0.54 | 1.65 | 1.43 | 1.45 | 3.66 |
 | Ensemble (Default parameters)                                                         | 2.61 | 4.43 | 5.05 | 4.45 | 0.35 | 0.86 | 1.41 | 1.17 | 3.18 |
+
+ * Tables for the French, German, Spanish, Italian, Portuguese, and Russian languages are available in a [separate document](docs/metrics.md).  
