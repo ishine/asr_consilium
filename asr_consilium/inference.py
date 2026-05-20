@@ -187,6 +187,7 @@ def inference(
             proc_data_with_voxtral(
                 jsonl_file,
                 save_path,
+                language=language,
                 batch_size=batch_size,
                 model_path=model,
             )
