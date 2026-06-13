@@ -52,6 +52,12 @@ python3 inference.py --input_data "samples/markdown.jsonl" --output "result.json
 | [Voxtral-Mini-3B-2507](https://huggingface.co/mistralai/Voxtral-Mini-3B-2507)               | 3.0        | 13        | 7.05                  | 
 | [Voxtral-Small-24B-2507](https://huggingface.co/mistralai/Voxtral-Small-24B-2507)               | 24.0       | 13        | 6.62                  | 
 
+* The Cohere Transcribe (03-2026) model requires a newer version of the `transformers` library (>= 5.4), as well as granted access to the model itself.
+
+## Requirements
+
+* Python >= 3.12 (primarily due to compatibility limitations with the `nemo_toolkit[asr,tts]` package; all other components are compatible with Python 3.10).
+
 ## Format of markdown.jsonl
 
 `markdown.jsonl` must contain 2 fields: 
