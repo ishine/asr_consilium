@@ -134,18 +134,20 @@ They all were gathered in [one big ASR testing dataset](https://huggingface.co/d
 
 ### WER
 
-| Model name | avg | fleurs_ru | mcv_ru |
-| --- | --- | --- | --- |
-| [Nvidia Parakeet v3](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3) | 4.25 | 5.54 | 2.97 |
-| [Qwen3-ASR-1.7B](https://huggingface.co/Qwen/Qwen3-ASR-1.7B) | 5.19 | 5.34 | 5.05 |
-| [Voxtral-Mini-3B-2507](https://huggingface.co/mistralai/Voxtral-Mini-3B-2507) | 7.72 | 8.34 | 7.11 |
-| Ensemble (Default parameters) | 3.55 | 4.46 | 2.63 |
+| Model name | avg  | fleurs_ru | mcv_ru |
+| --- |------|-----------|--------|
+| [Nvidia Parakeet v3](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3) | 4.25 | 5.54      | 2.97   |
+| [Qwen3-ASR-1.7B](https://huggingface.co/Qwen/Qwen3-ASR-1.7B) | 5.19 | 5.34      | 5.05   |
+| [Voxtral-Mini-3B-2507](https://huggingface.co/mistralai/Voxtral-Mini-3B-2507) | 7.72 | 8.34      | 7.11   |
+| [Whisper Large v3](https://huggingface.co/openai/whisper-large-v3) | 3.69 | 3.77      | 3.62   |
+| Ensemble (Default parameters) | 2.99 | 3.67      | 2.31   |
 
 ### CER
 
-| Model name | avg | fleurs_ru | mcv_ru |
-| --- | --- | --- | --- |
-| [Nvidia Parakeet v3](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3) | 1.15 | 1.59 | 0.71 |
-| [Qwen3-ASR-1.7B](https://huggingface.co/Qwen/Qwen3-ASR-1.7B) | 1.73 | 1.79 | 1.66 |
-| [Voxtral-Mini-3B-2507](https://huggingface.co/mistralai/Voxtral-Mini-3B-2507) | 3.09 | 3.42 | 2.76 |
-| Ensemble (Default parameters) | 1.08 | 1.44 | 0.71 |
+| Model name | avg  | fleurs_ru | mcv_ru |
+| --- |------|-----------|--------|
+| [Nvidia Parakeet v3](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3) | 1.15 | 1.59      | 0.71   |
+| [Qwen3-ASR-1.7B](https://huggingface.co/Qwen/Qwen3-ASR-1.7B) | 1.73 | 1.79      | 1.66   |
+| [Voxtral-Mini-3B-2507](https://huggingface.co/mistralai/Voxtral-Mini-3B-2507) | 3.09 | 3.42      | 2.76   |
+| [Whisper Large v3](https://huggingface.co/openai/whisper-large-v3) | 1.18 | 1.14      | 1.22   |
+| Ensemble (Default parameters) | 0.88 | 1.15      | 0.60   |
