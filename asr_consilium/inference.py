@@ -14,6 +14,13 @@ AVAILABLE_MODELS = [
     'ZFTurbo/Phi-4-multimodal-instruct',
     'mistralai/Voxtral-Small-24B-2507',
     'mistralai/Voxtral-Mini-3B-2507',
+    'openai/whisper-large-v3',
+    'openai/whisper-large-v2',
+    'openai/whisper-large',
+    'openai/whisper-medium',
+    'openai/whisper-small',
+    'openai/whisper-base',
+    'openai/whisper-tiny',
 ]
 
 
@@ -31,16 +38,6 @@ def inference(
 ):
     from .ensemble_functions import ensebmle_on_files
     from .utils import calc_metrics
-    from .inference_canary import proc_data_with_canary
-    try:
-        from .inference_cohere import proc_data_with_cohere
-    except Exception as e:
-        print("Can't load cohere model. Exception: {}".format(e))
-    from .inference_ibm_granite import proc_data_with_ibm_granite
-    from .inference_parakeet import proc_data_with_parakeet
-    from .inference_qwen3_asr import proc_data_with_qwen
-    from .inference_phi4 import proc_data_with_microsoft_phi4
-    from .inference_voxtral import proc_data_with_voxtral
 
     if model_list is None:
         if language is None or language == 'en':
@@ -119,9 +116,10 @@ def inference(
                 'nvidia/parakeet-tdt-0.6b-v3',
                 'Qwen/Qwen3-ASR-1.7B',
                 'mistralai/Voxtral-Mini-3B-2507',
+                'openai/whisper-large-v3',
             ]
-            weights = [7.6, 7.5, 3.5]
-
+            weights = [8.5, 6.0, 6.3, 6.6]
+            # Ensemble. WER: 2.9989 CER: 0.8801
 
     if weights is None:
         weights = [1.0] * len(model_list)
@@ -141,6 +139,8 @@ def inference(
             continue
 
         if 'parakeet-tdt' in model:
+            from .inference_parakeet import proc_data_with_parakeet
+
             proc_data_with_parakeet(
                 jsonl_file,
                 save_path,
@@ -148,6 +148,8 @@ def inference(
                 model_path=model,
             )
         elif 'Qwen3-ASR' in model:
+            from .inference_qwen3_asr import proc_data_with_qwen
+
             proc_data_with_qwen(
                 jsonl_file,
                 save_path,
@@ -156,6 +158,8 @@ def inference(
                 language=language,
             )
         elif 'canary-qwen' in model:
+            from .inference_canary import proc_data_with_canary
+
             proc_data_with_canary(
                 jsonl_file,
                 save_path,
@@ -163,6 +167,8 @@ def inference(
                 model_path=model,
             )
         elif 'granite-' in model:
+            from .inference_ibm_granite import proc_data_with_ibm_granite
+
             proc_data_with_ibm_granite(
                 jsonl_file,
                 save_path,
@@ -170,6 +176,11 @@ def inference(
                 model_path=model,
             )
         elif 'cohere-transcribe' in model:
+            try:
+                from .inference_cohere import proc_data_with_cohere
+            except Exception as e:
+                print("Can't load cohere model. Exception: {}".format(e))
+
             proc_data_with_cohere(
                 jsonl_file,
                 save_path,
@@ -177,6 +188,8 @@ def inference(
                 model_path=model,
             )
         elif 'Phi-4' in model:
+            from .inference_phi4 import proc_data_with_microsoft_phi4
+
             proc_data_with_microsoft_phi4(
                 jsonl_file,
                 save_path,
@@ -184,7 +197,19 @@ def inference(
                 model_path=model,
             )
         elif 'Voxtral' in model:
+            from .inference_voxtral import proc_data_with_voxtral
+
             proc_data_with_voxtral(
+                jsonl_file,
+                save_path,
+                language=language,
+                batch_size=batch_size,
+                model_path=model,
+            )
+        elif 'whisper' in model:
+            from .inference_whisper import proc_data_with_whisper
+
+            proc_data_with_whisper(
                 jsonl_file,
                 save_path,
                 language=language,
