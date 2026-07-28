@@ -2,8 +2,6 @@ import os
 from tqdm import tqdm
 import soundfile as sf
 import json
-import evaluate
-from .normalizer import EnglishTextNormalizer, BasicMultilingualTextNormalizer
 
 
 def get_dynamic_batches(
@@ -104,83 +102,4 @@ def store_test_dataset_as_files_unique(dataset, out_dir, name='test'):
         out.write(json.dumps(res, ensure_ascii=False) + '\n')
     out.close()
     return output_jsonl_file
-
-
-def calc_metrics(
-        target_file,
-        preds_file,
-        lang='en',
-        verbose=True
-):
-    wer_metric = evaluate.load("wer")
-    cer_metric = evaluate.load("cer")
-    if lang == 'en':
-        normalizer = EnglishTextNormalizer()
-    else:
-        normalizer = BasicMultilingualTextNormalizer()
-
-    lines = open(target_file, 'r', encoding="utf-8").readlines()
-    target = [json.loads(line) for line in lines]
-    lines = open(preds_file, 'r', encoding="utf-8").readlines()
-    preds = [json.loads(line) for line in lines]
-
-    if verbose:
-        print('Target entries: {} Prediction entries: {}'.format(len(target), len(preds)))
-
-    target_ids = set()
-    target_dict = {}
-    for t in target:
-        target_ids |= set([t['audio']])
-        target_dict[t['audio']] = t['text']
-
-    preds_ids = set()
-    preds_dict = {}
-    for t in preds:
-        preds_ids |= set([t['audio']])
-        preds_dict[t['audio']] = t['text']
-
-    check = target_ids - preds_ids
-    if len(check) != 0:
-        print("Some problem here. Some ids wasn't predicted! {}".format(len(check)))
-        print(list(check)[:5])
-        print(target_file, preds_file)
-
-    references1 = []
-    hypotheses1 = []
-    for audio_id in list(target_ids):
-        references1.append(target_dict[audio_id])
-        hypotheses1.append(preds_dict[audio_id])
-
-    references = [normalizer(ref) for ref in references1]
-    hypotheses = [normalizer(pred) for pred in hypotheses1]
-
-    references_fixed = []
-    hypotheses_fixed = []
-    for r, p in zip(references, hypotheses):
-        if r == '':
-            references_fixed.append('a')
-            if p == '':
-                hypotheses_fixed.append('a')
-            else:
-                hypotheses_fixed.append(p)
-        else:
-            references_fixed.append(r)
-            hypotheses_fixed.append(p)
-
-    references = references_fixed
-    hypotheses = hypotheses_fixed
-
-    score_wer = wer_metric.compute(
-        references=references,
-        predictions=hypotheses
-    )
-    score_wer = round(100 * score_wer, 6)
-
-    score_cer = cer_metric.compute(
-        references=references,
-        predictions=hypotheses
-    )
-    score_cer = round(100 * score_cer, 6)
-
-    return score_wer, score_cer
 

@@ -36,8 +36,8 @@ def inference(
         ensemble_type='median_extended',
         skip_existed=True,
 ):
-    from .ensemble_functions import ensebmle_on_files
-    from .utils import calc_metrics
+    from asr_ensemble import ensemble_jsonl_files
+    from asr_ensemble import compute_metrics_from_jsonl_files
 
     if model_list is None:
         if language is None or language == 'en':
@@ -219,12 +219,12 @@ def inference(
 
         try:
             # If you have "text" field in input jsonl then you can calc metrics
-            score_wer, score_cer = calc_metrics(jsonl_file, save_path)
+            score_wer, score_cer = compute_metrics_from_jsonl_files(jsonl_file, save_path)
             print("Model: {} WER: {:.4f} CER: {:.4f}".format(model, score_wer, score_cer))
         except Exception as e:
             print("Metrics are not available... Error:", str(e))
 
-    ensebmle_on_files(
+    ensemble_jsonl_files(
         files_for_ensemble,
         out_file,
         normalize=normalize,
@@ -236,7 +236,7 @@ def inference(
 
     try:
         # If you have "text" field in input jsonl then you can calc metrics
-        score_wer, score_cer = calc_metrics(jsonl_file, out_file)
+        score_wer, score_cer = compute_metrics_from_jsonl_files(jsonl_file, out_file)
         print("Ensemble. WER: {:.4f} CER: {:.4f}".format(score_wer, score_cer))
     except Exception as e:
         print("Metrics are not available... Error:", str(e))
